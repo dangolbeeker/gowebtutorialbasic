@@ -1,5 +1,6 @@
 package main
  
+import
 (
 	"fmt"
 	"io/ioutil"
@@ -22,4 +23,11 @@ func loadPage(title string) (*Page, error) {
 		return nil, err
 	}
 	return &Page{Title: title, Body: body}, nil
+}
+
+func main() {
+	p1 := &Page{Title: "LetsFuckingGo", Body: []byte("This is some pretty cool shit.")}
+	p1.save()
+	p2, _ := loadPage("LetsFuckingGo")
+	fmt.Println(string(p2.Body))
 }
