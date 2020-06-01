@@ -11,7 +11,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 )
+
 
 type Page struct {
 	Title string
@@ -71,6 +73,17 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
+
+fun getTitle(w http.ResponseWriter, r *http.Request) (string, error) {
+	m := validPath.FindStringSubmatch(r.URL.Path)
+	if m == nil {
+		http.NotFound(w, r)
+		return "", errors.New("invalid Page Title WTF!")
+	}
+	return m[2], nil 
+	}
+}
 
 
 func main() {
